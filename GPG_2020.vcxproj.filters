@@ -109,6 +109,9 @@
     <ClCompile Include="Task_Ending.cpp">
       <Filter>MyPG\Task\ending</Filter>
     </ClCompile>
+    <ClCompile Include="BChara.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine_Ver3_83.h">
@@ -182,6 +185,9 @@
     </ClInclude>
     <ClInclude Include="Task_Ending.h">
       <Filter>MyPG\Task\ending</Filter>
+    </ClInclude>
+    <ClInclude Include="BChara.h">
+      <Filter>Lib</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

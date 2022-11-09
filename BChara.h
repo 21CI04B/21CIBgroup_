@@ -24,6 +24,7 @@ public:
 	int         spornX, spornY; //出現地点(配列用)
 	bool        meDeath;
 	int			hp;
+	float       angle;
 	//左右の向き（2D横視点ゲーム専用）
 	enum class Angle_LR { Left, Right };
 	Angle_LR	angle_LR;
@@ -117,4 +118,6 @@ public:
 
 	//接触判定
 	virtual bool CheckHit(const ML::Box2D& hit_);
+
+	virtual void Rotate(int speed_);
 };
