@@ -6,11 +6,11 @@
 #include "GameEngine_Ver3_83.h"
 #include "BChara.h"
 
-namespace  Lane
+namespace  Player
 {
 	//タスクに割り当てるグループ名と固有名
-	const  string  defGroupName("Lane");	//グループ名
-	const  string  defName("Lane");	//タスク名
+	const  string  defGroupName("Player");	//グループ名
+	const  string  defName("Player");	//タスク名
 	//-------------------------------------------------------------------
 	class  Resource : public BResource
 	{
@@ -24,6 +24,8 @@ namespace  Lane
 		static   WP  instance;
 		static  Resource::SP  Create();
 		//共有する変数はここに追加する
+		DG::Image::SP  img;
+		XI::Mouse::SP mouse;
 	};
 	//-------------------------------------------------------------------
 	class  Object : public BChara
@@ -46,10 +48,10 @@ namespace  Lane
 		bool  Finalize();		//「終了」タスク消滅時に１回だけ行う処理
 	//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
 	public:
+		int Playeron;
 		
-		int Imageno;
 
 		//追加したい変数・メソッドはここに追加する
-		
+
 	};
 }

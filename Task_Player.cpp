@@ -1,27 +1,24 @@
-//-------------------------------------------------------------------
-//ゲーム本編
-//-------------------------------------------------------------------
 #include  "MyPG.h"
-#include  "Task_Game.h"
+#include  "Task_Player.h"
 
-#include "randomLib.h"
-
-#include  "Task_Ending.h"
-#include"Task_Player.h"
-
-namespace  Game
+namespace  Player
 {
 	Resource::WP  Resource::instance;
 	//-------------------------------------------------------------------
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
+		this->img = DG::Image::Create("./data/image/onoff.png");
+		this->mouse = XI::Mouse::Create();
+		//デフォルト
 		return true;
 	}
 	//-------------------------------------------------------------------
 	//リソースの解放
 	bool  Resource::Finalize()
 	{
+		this->img.reset();
+		this->mouse.reset();
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -33,11 +30,13 @@ namespace  Game
 		//リソースクラス生成orリソース共有
 		this->res = Resource::Create();
 
+
 		//★データ初期化
-		
-		//デバッグ用フォントの準備
-		this->TestFont = DG::Font::Create("ＭＳ ゴシック", 30, 30);
-		auto Player = Player::Object::Create(true);
+		this->pos.x = 0;
+		this->pos.y = 0;
+		this->Playeron = 0;
+		ShowCursor(false);
+
 		//★タスクの生成
 
 		return  true;
@@ -47,12 +46,10 @@ namespace  Game
 	bool  Object::Finalize()
 	{
 		//★データ＆タスク解放
-		ge->KillAll_G("本編");
-
+//		this->img.reset();
 
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
 			//★引き継ぎタスクの生成
-			auto next = Ending::Object::Create(true);
 		}
 
 		return  true;
@@ -61,27 +58,33 @@ namespace  Game
 	//「更新」１フレーム毎に行う処理
 	void  Object::UpDate()
 	{
-		auto inp = ge->in1->GetState( );
-		if (inp.ST.down) {
-			ge->StartCounter("test", 45); //フェードは90フレームなので半分の45で切り替え
-			ge->CreateEffect(99, ML::Vec2(0, 0));
+		auto ms = ge->mouse->GetState();
+		if (ms.LB.on)
+		{
+			this->Playeron = 1;
 		}
-		if (ge->getCounterFlag("test") == ge->LIMIT) {
-			this->Kill();
+		else
+		{
+			this->Playeron = 0;
 		}
+		this->pos.x = ms.pos.x-15;
+		this->pos.y = ms.pos.y-15;
+
 	}
 	//-------------------------------------------------------------------
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
-		int x = GetRandom(-10, 10);
-		int y = GetRandom(-10, 10);
+		ML::Box2D draw(0, 0, 50, 50);
+		ML::Box2D src(50 * this->Playeron, 0, 50, 50);
+		draw.x = draw.x + this->pos.x;
+		draw.y = draw.y + this->pos.y;
+		this->res->img->Draw(draw,src);
 
-		TestFont->Draw(ML::Box2D(100+x, 100+y, ge->screen2DWidth, ge->screen2DHeight),
-			"Game"
-		);
+
 
 	}
+
 
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
@@ -95,6 +98,7 @@ namespace  Game
 			ob->me = ob;
 			if (flagGameEnginePushBack_) {
 				ge->PushBack(ob);//ゲームエンジンに登録
+				//（メソッド名が変なのは旧バージョンのコピーによるバグを回避するため
 			}
 			if (!ob->B_Initialize()) {
 				ob->Kill();//イニシャライズに失敗したらKill
