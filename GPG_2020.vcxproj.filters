@@ -109,6 +109,12 @@
     <ClCompile Include="Task_Ending.cpp">
       <Filter>MyPG\Task\ending</Filter>
     </ClCompile>
+<<<<<<< HEAD
+=======
+    <ClCompile Include="BChara.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
+>>>>>>> 7b8abbc6c4659e79652d0e9fed1ca6b134016f4e
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine_Ver3_83.h">
@@ -183,5 +189,11 @@
     <ClInclude Include="Task_Ending.h">
       <Filter>MyPG\Task\ending</Filter>
     </ClInclude>
+<<<<<<< HEAD
+=======
+    <ClInclude Include="BChara.h">
+      <Filter>Lib</Filter>
+    </ClInclude>
+>>>>>>> 7b8abbc6c4659e79652d0e9fed1ca6b134016f4e
   </ItemGroup>
 </Project>
